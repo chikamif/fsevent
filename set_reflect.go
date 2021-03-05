@@ -37,7 +37,6 @@ func setReflect(v reflect.Value, field map[string]interface{}, tag string) error
 		v.Set(reflect.ValueOf(ll))
 		return nil
 	}
-
 	switch v.Kind() {
 	case reflect.Bool:
 		bv := field["booleanValue"]
@@ -49,6 +48,8 @@ func setReflect(v reflect.Value, field map[string]interface{}, tag string) error
 			return fmt.Errorf("fsevent: %s is not bool", tag)
 		}
 		v.SetBool(fv)
+	case reflect.Int:
+		fallthrough
 	case reflect.Int64:
 		iv := field["integerValue"]
 		if iv == nil {
@@ -115,26 +116,7 @@ func setReflect(v reflect.Value, field map[string]interface{}, tag string) error
 			if !ok {
 				return fmt.Errorf("fsevent: %s is not array", tag)
 			}
-			return setReflect(v.Index(i), f, tag)
-		}
-	case reflect.Array:
-		vs, err := reflectArray(field, tag)
-		if err != nil {
-			return err
-		}
-		vslen := len(vs)
-		vlen := v.Len()
-		if vlen > vslen {
-			for i := vslen; i < vlen; i++ {
-				v.Index(i).Set(reflect.Zero(v.Type().Elem()))
-			}
-		}
-		for i := 0; i < vslen; i++ {
-			f, ok := vs[i].(map[string]interface{})
-			if !ok {
-				return fmt.Errorf("fsevent: %s is not array", tag)
-			}
-			return setReflect(v.Index(i), f, tag)
+			setReflect(v.Index(i), f, tag)
 		}
 	case reflect.Struct:
 		fsm, err := reflectMap(field, tag)

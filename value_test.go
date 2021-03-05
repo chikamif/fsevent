@@ -12,7 +12,8 @@ import (
 
 type data struct {
 	Bool       bool                   `firestore:"bool"`
-	Int        int64                  `firestore:"int"`
+	Int        int                    `firestore:"int"`
+	Int64      int64                  `firestore:"int64"`
 	IntP       *int64                 `firestore:"intP"`
 	Float      float64                `firestore:"float"`
 	FloatP     *float64               `firestore:"floatP"`
@@ -68,6 +69,9 @@ var dataToTests = []dataToTest{
 				"booleanValue": true
 			},
 			"int": {
+				"integerValue": "2"
+			},
+			"int64": {
 				"integerValue": "3"
 			},
 			"intP": {
@@ -107,7 +111,10 @@ var dataToTests = []dataToTest{
 				"arrayValue": {
 					"values": [
 						{
-							"stringValue": "string in array"
+							"stringValue": "first"
+						},
+						{
+							"stringValue": "second"
 						}
 					]
 				}
@@ -147,6 +154,7 @@ var dataToTests = []dataToTest{
 		}}`,
 		data{
 			true,
+			2,
 			3,
 			intPtr(5),
 			3.14,
@@ -158,7 +166,7 @@ var dataToTests = []dataToTest{
 			testBytes,
 			"projects/{project_id}/databases/{database_id}/documents/{document_path}",
 			&testLatLng,
-			[]string{"string in array"},
+			[]string{"first", "second"},
 			smap{
 				false,
 				123,
@@ -194,6 +202,9 @@ var dataToTests = []dataToTest{
 				"stringValue": "this is string"
 			},
 			"int": {
+				"integerValue": "2"
+			},
+			"int64": {
 				"integerValue": "3"
 			},
 			"time": {
@@ -211,6 +222,7 @@ var dataToTests = []dataToTest{
 		}}`,
 		data{
 			false,
+			2,
 			3,
 			nil,
 			0.0,
@@ -258,6 +270,9 @@ var dataToTests = []dataToTest{
 				"integerValue": "3"
 			},
 			"int": {
+				"integerValue": "2"
+			},
+			"int64": {
 				"integerValue": "3"
 			},
 			"timeP": {
@@ -281,6 +296,7 @@ var dataToTests = []dataToTest{
 		}}`,
 		data{
 			false,
+			2,
 			3,
 			nil,
 			0.0,
