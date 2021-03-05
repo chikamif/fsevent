@@ -1,4 +1,4 @@
-module github.com/ya5u/fsevent
+module github.com/chikamim/fsevent
 
 go 1.13
 
