@@ -1,4 +1,4 @@
-module github.com/chikamim/fsevent
+module github.com/chikamif/fsevent
 
 go 1.13
 
